@@ -6,6 +6,7 @@ using Archipelago.MultiClient.Net.Models;
 using PotionCraftAPMod.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PotionCraftAPMod.Handlers;
@@ -47,12 +48,35 @@ public class ArchipelagoConnectionHandler
         {
             isConnected = true;
 
-            session.Socket.SocketClosed += (reason) => {
+            session.Socket.SocketClosed += (reason) =>
+            {
                 isConnected = false;
                 Plugin.Logger.LogInfo("Connection Closed");
             };
-        }
 
+            var loginSuccess = (LoginSuccessful)result;
+
+
+            string modversion = loginSuccess.SlotData.GetValueOrDefault("ModVersion").ToString();
+
+            if (!modversion.Equals(MyPluginInfo.PLUGIN_VERSION))
+            {
+                Plugin.Logger.LogInfo($"AP Expects Mod v{modversion}");
+            }
+            else
+            {
+                Plugin.Logger.LogInfo($"Connect with v{modversion}");
+            }
+        }
+        else
+        {
+            var failure = (LoginFailure)result;
+            var errorMessage = $"Failed to Connect to {ip} as {slot}:";
+            errorMessage = failure.Errors.Aggregate(errorMessage, (current, error) => current + $"\n    {error}");
+            errorMessage = failure.ErrorCodes.Aggregate(errorMessage, (current, error) => current + $"\n    {error}");
+            Plugin.Logger.LogInfo(errorMessage);
+        }
+    }
     static void OnMessageReceived(LogMessage message)
     {
         Plugin.Logger.LogInfo(message.ToString());
@@ -63,5 +87,15 @@ public class ArchipelagoConnectionHandler
         //check if we are in game
         //if not, add to a item queue
         //if so, handle item
+    }
+
+    public void SendGoalCompletion()
+    {
+        session.SetGoalAchieved();
+    }
+
+    public void CompleteLocationChecks(params long[] ids)
+    {
+        session.Locations.CompleteLocationChecks(ids);
     }
 }
