@@ -76,9 +76,4 @@
       <HintPath>lib\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Patches\" />
-    <Folder Include="Patches\" />
-  </ItemGroup>
 </Project>
