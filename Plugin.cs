@@ -33,7 +33,7 @@ public class Plugin : BaseUnityPlugin
 
     public void OnChapter(ChaptersGroup group, Chapter chapter)
     {
-        //send chapter location
+        Logger.LogInfo($"Chapter Name {chapter}");
     }
 
     private void Update()
