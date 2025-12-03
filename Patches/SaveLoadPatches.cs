@@ -9,15 +9,5 @@ namespace PotionCraftAPMod.Patches;
 [HarmonyPatch(typeof(SaveLoadManager))]
 public class SaveLoadPatches
 {
-    [HarmonyPatch("MethodNameHere")]
-    [HarmonyPrefix]
-    static bool PreFix()
-    {
-        if (true)
-        {
-            //InteractionPlayerController
-            return true;
-        }
-        return false;
-    }
+
 }

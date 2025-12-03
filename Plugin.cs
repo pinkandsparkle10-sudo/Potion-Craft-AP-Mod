@@ -10,6 +10,7 @@ using PotionCraft.ScriptableObjects.Ingredient;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace PotionCraftAPMod;
 
@@ -17,24 +18,22 @@ namespace PotionCraftAPMod;
 public class Plugin : BaseUnityPlugin
 {
     public static new ManualLogSource Logger;
-        
+
     private void Awake()
     {
         // Plugin startup logic
         Logger = base.Logger;
         Logger.LogInfo($"Plugin PotionCraftAPMod is loaded!");
         HarmonyLib.Harmony harmony = new("com.pinkandsparkle10.PotionCraftAPMod");
-        //harmony.PatchAll(Assembly.GetExecutingAssembly());
+        harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-        Managers.Goals.onChapterCompleted.AddListener(OnChapter);
+        
         //Managers.Npc.
+        SceneManager.sceneLoaded += this.OnSceneLoad;
 
     }
 
-    public void OnChapter(ChaptersGroup group, Chapter chapter)
-    {
-        Logger.LogInfo($"Chapter Name {chapter}");
-    }
+   
 
     private void Update()
     {
@@ -42,7 +41,16 @@ public class Plugin : BaseUnityPlugin
         {
             PotionCraft.ManagersSystem.Player.PlayerManager.AddGoldCommand(10);
         }
-            
+
     }
-  
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        Logger.LogInfo($"{scene.name}");
+        //if (scene.name.Equals("Main"))
+        //{
+        //    Plugin.Logger.LogInfo($"does goal manager exist in main? {Managers.Goals != null}");
+        //}
+
+        //Logger.LogInfo($"does goal manager exist? {Managers.Goals != null}");
+    }
 }

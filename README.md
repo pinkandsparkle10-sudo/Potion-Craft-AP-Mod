@@ -46,8 +46,8 @@ key items
 -potion bases
 
 sanity
--remove water pouring (needs for chpt3)
--remove grind stone (not needed, AP required for chpt3)
+-remove water pouring (needs for chpt2)
+-remove grind stone (not needed, AP required for chpt1)
 
 Deathlink
 -if potion dies, send
