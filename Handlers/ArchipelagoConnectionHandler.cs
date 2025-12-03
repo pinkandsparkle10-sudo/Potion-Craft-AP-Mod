@@ -20,7 +20,7 @@ public class ArchipelagoConnectionHandler
         public int index { get; set; }
     }
 
-    private ArchipelagoSession session;
+    public ArchipelagoSession session;
     public SlotData slotData = new SlotData();
     private LoginResult result = null;
     public bool isConnected = false;
@@ -82,8 +82,9 @@ public class ArchipelagoConnectionHandler
         Plugin.Logger.LogInfo(message.ToString());
     }
 
-    static void OnItemRecieved(ReceivedItemsHelper receivedItemsHelper)
+    public static void OnItemRecieved(ReceivedItemsHelper receivedItemsHelper)
     {
+        //ToDo
         //check if we are in game
         //if not, add to a item queue
         //if so, handle item
