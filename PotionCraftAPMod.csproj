@@ -16,6 +16,8 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <Import Project="$(MSBuildThisFileDirectory)\ProjectSettings.props" />
+
   <ItemGroup>
     <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
@@ -35,46 +37,56 @@
   
   <ItemGroup>
     <Reference Include="PotionCraft.Core">
-      <HintPath>lib\PotionCraft.Core.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.Core.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.DataBaseSystem">
-      <HintPath>lib\PotionCraft.DataBaseSystem.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.DataBaseSystem.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.InputSystem">
-      <HintPath>lib\PotionCraft.InputSystem.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.ManagerSystem">
-      <HintPath>lib\PotionCraft.ManagerSystem.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.ManagerSystem.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.SceneLoader">
-      <HintPath>lib\PotionCraft.SceneLoader.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.SceneLoader.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.Scripts">
-      <HintPath>lib\PotionCraft.Scripts.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.Scripts.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.Settings">
-      <HintPath>lib\PotionCraft.Settings.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.Settings.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.ShaderEffects">
-      <HintPath>lib\PotionCraft.ShaderEffects.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.ShaderEffects.dll</HintPath>
     </Reference>
     <Reference Include="PotionCraft.SoundSystem">
-      <HintPath>lib\PotionCraft.SoundSystem.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\PotionCraft.SoundSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem">
-      <HintPath>lib\Unity.InputSystem.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>lib\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>lib\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>lib\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>lib\UnityEngine.UI.dll</HintPath>
+      <HintPath>$(GamePath)\Potion Craft_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets\color-icon.png" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="Exists('$(GamePath)')">
+
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GamePath)\BepInEx\plugins\$(ProjectName)" />
+    <Copy SourceFiles="$(TargetDir)Archipelago.MultiClient.Net.dll" DestinationFolder="$(GamePath)\BepInEx\plugins\$(ProjectName)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

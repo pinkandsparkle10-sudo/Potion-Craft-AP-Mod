@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 
 
-namespace PotionCraftAPMod.Data;
+namespace PotionCraftAPMod.Archipelago.Mapping;
 
 public class IngredientMapping
 {

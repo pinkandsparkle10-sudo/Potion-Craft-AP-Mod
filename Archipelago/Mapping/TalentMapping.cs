@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using PotionCraft.ScriptableObjects.Talents;
 
-namespace PotionCraftAPMod.Data;
+namespace PotionCraftAPMod.Archipelago.Mapping;
 
 public class TalentMapping
 {
