@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Archipelago.MultiClient.Net.Helpers;
+using PotionCraftAPMod.Archipelago;
+using PotionCraftAPMod.Archipelago.Mapping;
 using PotionCraftAPMod.Handlers;
 
 namespace PotionCraftAPMod.Patches;
@@ -35,12 +37,28 @@ public class ManagersPatches
 
     public static void OnGoalCompleted(PotionCraft.ObjectBased.UIElements.Books.GoalsBook.Goal goal)
     {
+        //ArchipelagoHandler.Instance.CompleteLocationChecks(GoalMapping.GoalDict[goal.name]);
+        
         Plugin.Logger.LogInfo($"Goal: {goal.customGoalName} {goal.name}");
+        
+        /*for (int i = 0; i < 10; i++)
+        {
+            Chapter C = Managers.Goals.goalsBook.GetChapterByGlobalIndex(i);
+            foreach (Goal g in C.goals)
+            {
+                Plugin.Logger.LogInfo(g.name);
+            }
+        }
+        */
     }
 
     public static void MadeDeal()
     {
         Plugin.Logger.LogInfo("Made Deal");
     }
+}
+
+internal class Logger
+{
 }
 //TODO Find talents and find seeds, and find big XP spot, how to remove seeds from merchants

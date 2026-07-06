@@ -99,9 +99,11 @@ public class Plugin : BaseUnityPlugin
         }
 
         
+    }
+
+
 
         //Logger.LogInfo($"does goal manager exist? {Managers.Goals != null}");
-    }
     public static bool IsGameReady()
     {
         return true;
