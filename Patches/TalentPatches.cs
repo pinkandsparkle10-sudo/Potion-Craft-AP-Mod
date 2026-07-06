@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BepInEx;
 using HarmonyLib;
 using PotionCraft.ScriptableObjects.Talents;
-using PotionCraftAPMod.Data;
+using PotionCraftAPMod.Archipelago;
 using TalentsWindowSystem.TalentButtonItem;
 
 namespace PotionCraftAPMod.Patches;
@@ -16,10 +16,14 @@ public class TalentPatches
     [HarmonyPrefix]
     static bool PreFix(TalentButton __instance)
     {
+        if(ArchipelagoHandler.Instance.slotData == null)
+        {
+            return false;
+        }
         int parentTalentLevel = __instance.GetParentTalentLevel();
-        __instance.Locked = ((parentTalentLevel != -1 || !Plugin.SlotData.Sequencial_Talents) && 
+        __instance.Locked = ((parentTalentLevel != -1 || !ArchipelagoHandler.Instance.slotData.Sequencial_Talents) && 
                             __instance.Talent.parentTalentPointsToUnlock > parentTalentLevel) ||
-                            !Plugin.SaveData.HasTalent(__instance.Talent);
+                            !ArchipelagoHandler.Instance.saveHandler.HasTalent(__instance.Talent);
         __instance.UpdateLockedState();
         Plugin.Logger.LogInfo(__instance.Talent.name);
         return false;

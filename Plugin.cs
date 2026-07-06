@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using PotionCraft.InputSystem;
 using PotionCraft.ManagersSystem;
 using PotionCraft.ManagersSystem.Goals;
 using PotionCraft.ObjectBased.UIElements.Books.GoalsBook;
+using PotionCraft.SaveFileSystem;
+using PotionCraft.SceneLoader;
 using PotionCraft.ScriptableObjects.Ingredient;
-using System.Reflection;
-using PotionCraftAPMod.Data;
+using PotionCraft.ScriptableObjects.Talents;
+using PotionCraftAPMod.Archipelago;
 using PotionCraftAPMod.Handlers;
+using PotionCraftAPMod.UI;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using PotionCraft.ScriptableObjects.Talents;
 using Logger = BepInEx.Logging.Logger;
 using PotionCraft.ScriptableObjects;
 
@@ -25,14 +31,29 @@ namespace PotionCraftAPMod;
 [BepInPlugin("com.pinkandsparkle10.PotionCraftAPMod", "PotionCraftAPMod", "0.1.0")]
 public class Plugin : BaseUnityPlugin
 {
-    public static ArchipelagoConnectionHandler ApConnectHandler;
+
     public static new ManualLogSource Logger;
-    public static SaveData SaveData = new SaveData();
-    public static SlotData SlotData = new SlotData();
+    private static ConfigFile ConfigRef;
+
+    public static ConfigEntry<float> MessageInTime;
+    public static ConfigEntry<bool> FilterLog;
+    public static ConfigEntry<float> MessageHoldTime;
+    public static ConfigEntry<float> MessageOutTime;
+    public static ConfigEntry<bool> EnableDebugLogging;
+    public static ConfigEntry<KeyCode> ConnectionHotKey;
+    public static ConfigEntry<KeyCode> LogToggleKey;
+    public static ConfigEntry<KeyCode> HistoryToggleKey;
+    //public static ConfigEntry<KeyCode> ConsoleHotkey;
+    public static ConfigEntry<bool> doDeathlink;
+    public static ConfigEntry<string> LastUsedIP;
+    public static ConfigEntry<string> LastUsedPassword;
+    public static ConfigEntry<string> LastUsedSlot;
 
     private void Awake()
     {
-        ApConnectHandler = new ArchipelagoConnectionHandler();
+
+        ArchipelagoHandler.Instance = gameObject.AddComponent<ArchipelagoHandler>();
+        ItemHandler.Instance = gameObject.AddComponent<ItemHandler>();
         // Plugin startup logic
         Logger = base.Logger;
         Logger.LogInfo($"Plugin PotionCraftAPMod is loaded!");
@@ -42,13 +63,16 @@ public class Plugin : BaseUnityPlugin
         
         //Managers.Npc.
         SceneManager.sceneLoaded += (scene, mode) => this.OnSceneLoad(scene, mode); //TODO
-        
-        //testing remove
-        SlotData.Sequencial_Talents = false;
+        bindConfig();
+
 
     }
+    void Start()
+    {
+        _ = ConnectionMenu.Instance;
+    }
 
-   
+
 
     private void Update()
     {
@@ -78,8 +102,81 @@ public class Plugin : BaseUnityPlugin
 
         //Logger.LogInfo($"does goal manager exist? {Managers.Goals != null}");
     }
-    
-    
-    
+    public static bool IsGameReady()
+    {
+        return true;
+    }
+    public static bool EnabledDeathLink()
+    {
+        return doDeathlink.Value;
+    }
+
+    private void bindConfig()
+    {
+        ConfigRef = Config;
+        EnableDebugLogging = Config.Bind(
+                "Logging",
+                "EnableDebugLogging",
+                false,
+                "Enables or disables debug logging in the Archipelago Console."
+            );
+        FilterLog = Config.Bind(
+               "Logging",
+               "FilterLog",
+               false,
+               "Filter the archipelago log to only show messages relevant to you."
+           );
+
+        MessageInTime = Config.Bind(
+            "Logging",
+            "MessageInTime",
+            0.25f,
+            "How long messages take to animate in."
+        );
+
+        MessageHoldTime = Config.Bind(
+            "Logging",
+            "MessageHoldTime",
+            3f,
+            "How long messages stay in the log before animating out."
+        );
+
+        MessageOutTime = Config.Bind(
+            "Logging",
+            "MessageOutTime",
+            0.5f,
+            "How long messages stay in the log before animating out."
+        );
+
+        doDeathlink = Config.Bind(
+           "GamePlay",
+           "Enable Deathlink",
+           true,
+           "Enable sending and receiving deathlinks. Overrides YAML."
+       );
+
+        ConnectionHotKey = Config.Bind(
+            "Hotkeys",
+            "Toggle Connection Window",
+            KeyCode.F8, // Default key
+            "Press this key to toggle AP Connection GUI"
+        );
+        LogToggleKey = Config.Bind(
+            "Hotkeys",
+            "Toggle AP Console",
+            KeyCode.F7, // Default key
+            "Press this key to toggle AP Console Output"
+        );
+        HistoryToggleKey = Config.Bind(
+            "Hotkeys",
+            "Toggle AP Console History",
+            KeyCode.F6, // Default key
+            "Press this key to toggle AP Console History"
+        );
+        LastUsedIP = Config.Bind("Connection", "LastUsedIP", "", "The last server IP entered.");
+        LastUsedPassword = Config.Bind("Connection", "LastUsedPassword", "", "The last server password entered.");
+        LastUsedSlot = Config.Bind("Connection", "LastUsedSlot", "", "The last player slot name entered.");
+    }
+
     //BIG NOTE TO DOWNLOAD MOD MOVE POTIONCRAFTAPMOD.DLL to (bepin -> plugins folder)
 }

@@ -8,3 +8,4 @@ lib/
 .git/
 bin/
 Folder.DotSettings.user
+/ProjectSettings.props
