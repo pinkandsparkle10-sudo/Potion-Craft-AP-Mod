@@ -18,6 +18,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using PotionCraft.ScriptableObjects.Talents;
 using Logger = BepInEx.Logging.Logger;
+using PotionCraft.ScriptableObjects;
 
 namespace PotionCraftAPMod;
 
@@ -68,9 +69,9 @@ public class Plugin : BaseUnityPlugin
         //{
             //Logger.LogInfo(talVar.name); 
         //}
-        foreach (var ingredient in Ingredient.allIngredients)
+        foreach (var potionEffect in PotionEffect.allPotionEffects)
         {
-            Logger.LogInfo(ingredient.name); 
+            Logger.LogInfo(potionEffect.name); 
         }
 
         
