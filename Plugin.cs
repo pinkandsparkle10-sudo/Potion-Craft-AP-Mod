@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using Logger = BepInEx.Logging.Logger;
 using PotionCraft.ScriptableObjects;
@@ -40,9 +41,10 @@ public class Plugin : BaseUnityPlugin
     public static ConfigEntry<float> MessageHoldTime;
     public static ConfigEntry<float> MessageOutTime;
     public static ConfigEntry<bool> EnableDebugLogging;
-    public static ConfigEntry<KeyCode> ConnectionHotKey;
-    public static ConfigEntry<KeyCode> LogToggleKey;
-    public static ConfigEntry<KeyCode> HistoryToggleKey;
+
+    public static ConfigEntry<Key> ConnectionHotKey;
+    public static ConfigEntry<Key> LogToggleKey;
+    public static ConfigEntry<Key> HistoryToggleKey;
     //public static ConfigEntry<KeyCode> ConsoleHotkey;
     public static ConfigEntry<bool> doDeathlink;
     public static ConfigEntry<string> LastUsedIP;
@@ -160,25 +162,23 @@ public class Plugin : BaseUnityPlugin
         ConnectionHotKey = Config.Bind(
             "Hotkeys",
             "Toggle Connection Window",
-            KeyCode.F8, // Default key
+            Key.F2, // Default key
             "Press this key to toggle AP Connection GUI"
         );
         LogToggleKey = Config.Bind(
             "Hotkeys",
             "Toggle AP Console",
-            KeyCode.F7, // Default key
+            Key.F3, // Default key
             "Press this key to toggle AP Console Output"
         );
         HistoryToggleKey = Config.Bind(
             "Hotkeys",
             "Toggle AP Console History",
-            KeyCode.F6, // Default key
+            Key.F4, // Default key
             "Press this key to toggle AP Console History"
         );
         LastUsedIP = Config.Bind("Connection", "LastUsedIP", "", "The last server IP entered.");
         LastUsedPassword = Config.Bind("Connection", "LastUsedPassword", "", "The last server password entered.");
         LastUsedSlot = Config.Bind("Connection", "LastUsedSlot", "", "The last player slot name entered.");
     }
-
-    //BIG NOTE TO DOWNLOAD MOD MOVE POTIONCRAFTAPMOD.DLL to (bepin -> plugins folder)
 }

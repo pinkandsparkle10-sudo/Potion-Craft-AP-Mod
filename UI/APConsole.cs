@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 
 namespace PotionCraftAPMod.UI;
@@ -107,8 +109,8 @@ public class APConsole : MonoBehaviour
         UpdateMessages(Time.deltaTime);
         TryAddNewMessages();
 
-        //if (Input.GetKeyDown(Plugin.LogToggleKey.Value)) ToggleConsole();
-        //if (Input.GetKeyDown(Plugin.HistoryToggleKey.Value)) ToggleHistory();
+        if (Keyboard.current[Plugin.LogToggleKey.Value].wasPressedThisFrame) ToggleConsole();
+        if (Keyboard.current[Plugin.HistoryToggleKey.Value].wasPressedThisFrame) ToggleHistory();
 
         if (_showHistory)
         {
