@@ -23,8 +23,7 @@ public class ManagersPatches
             Managers.Goals.onGoalCompleted.AddListener(OnGoalCompleted);
             Plugin.Logger.LogInfo("Run Listeners");
             Managers.Trade.onMakeDeal.AddListener(MadeDeal);
-            ArchipelagoConnectionHandler.session.Items.ItemReceived.AddListener(ReceivedItem); 
-            //Fyre I give up, Where are the locations?
+            
 
         }
     }
@@ -43,9 +42,5 @@ public class ManagersPatches
     {
         Plugin.Logger.LogInfo("Made Deal");
     }
-
-    private static void ReceivedItem()
-    {
-        Plugin.Logger.LogInfo("Item Received");
-    }
 }
+//TODO Find talents and find seeds, and find big XP spot, how to remove seeds from merchants

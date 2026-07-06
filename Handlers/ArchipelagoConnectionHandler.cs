@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PotionCraft.ScriptableObjects.Talents;
 
 namespace PotionCraftAPMod.Handlers;
 
@@ -84,10 +85,10 @@ public class ArchipelagoConnectionHandler
 
     public static void OnItemRecieved(ReceivedItemsHelper receivedItemsHelper)
     {
-        //ToDo
+        //Todo
         //check if we are in game
         //if not, add to a item queue
-        //if so, handle item
+        ItemHandler.ProcessNewItem(receivedItemsHelper.DequeueItem());
     }
 
     public void SendGoalCompletion()
