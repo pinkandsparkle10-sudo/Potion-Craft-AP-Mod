@@ -5,6 +5,7 @@ using PotionCraftAPMod.Archipelago;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 
 public class ConnectionMenu : MonoBehaviour
@@ -100,7 +101,7 @@ public class ConnectionMenu : MonoBehaviour
         // Title
         TMP_Text title = CreateText("AP Client", new Vector2(0, 150), 20, bgObj.transform);
         title.alignment = TextAlignmentOptions.Center;
-        Texture2D logoTex = Util.LoadTexture("ApClient.assets.color-icon.png");
+        Texture2D logoTex = Util.LoadTexture("PotionCraftAPMod.assets.color-icon.png");
         if (logoTex != null)
         {
             GameObject logoObj = new GameObject("Logo", typeof(Image));
@@ -154,11 +155,10 @@ public class ConnectionMenu : MonoBehaviour
 
     void Update()
     {
-        //InputSystem.on
-        //if (Input.GetKeyDown(Plugin.ConnectionHotKey.Value))
-        //{
-        //    toggleVisability();
-        //}
+        if (Keyboard.current[Plugin.ConnectionHotKey.Value].wasPressedThisFrame)
+        {
+            toggleVisability();
+        }
         if (stateLabel != null)
             stateLabel.text = state;
     }
