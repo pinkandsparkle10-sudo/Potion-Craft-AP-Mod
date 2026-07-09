@@ -20,17 +20,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using PotionCraft.Core.Extensions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.SceneManagement;
 using Logger = BepInEx.Logging.Logger;
 using PotionCraft.ScriptableObjects;
+using PotionCraft.ObjectBased.Garden;
+using PotionCraft.ScriptableObjects.Ingredient;
+
+
 
 namespace PotionCraftAPMod;
 
 [BepInPlugin("com.pinkandsparkle10.PotionCraftAPMod", "PotionCraftAPMod", "0.1.0")]
-public class Plugin : BaseUnityPlugin
+public class Plugin(IngredientPlantData ingredientPlantData) : BaseUnityPlugin
 {
 
     public static new ManualLogSource Logger;
@@ -50,15 +55,15 @@ public class Plugin : BaseUnityPlugin
     public static ConfigEntry<string> LastUsedIP;
     public static ConfigEntry<string> LastUsedPassword;
     public static ConfigEntry<string> LastUsedSlot;
+    public PotionCraft.ScriptableObjects.Ingredient.Ingredient ingredient;
 
     private void Awake()
     {
-
+        Logger = base.Logger;
+        Logger.LogInfo($"Plugin PotionCraftAPMod is loaded!");
         ArchipelagoHandler.Instance = gameObject.AddComponent<ArchipelagoHandler>();
         ItemHandler.Instance = gameObject.AddComponent<ItemHandler>();
         // Plugin startup logic
-        Logger = base.Logger;
-        Logger.LogInfo($"Plugin PotionCraftAPMod is loaded!");
         HarmonyLib.Harmony harmony = new("com.pinkandsparkle10.PotionCraftAPMod");
         harmony.PatchAll(Assembly.GetExecutingAssembly());
 
@@ -78,12 +83,19 @@ public class Plugin : BaseUnityPlugin
 
     private void Update()
     {
+        //if (Keyboard.current.f6Key.wasPressedThisFrame)
+        //{
+            //PotionCraft.ManagersSystem.Player.PlayerManager.AddGoldCommand(10)
+        //}
+
+
         if (Keyboard.current.f6Key.wasPressedThisFrame)
         {
-            PotionCraft.ManagersSystem.Player.PlayerManager.AddGoldCommand(10);
+            Managers.Ingredient.AddIngredients("MagmaMorel", 10);
         }
-
     }
+    
+
     private void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         Logger.LogInfo($"{scene.name}");

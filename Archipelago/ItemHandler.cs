@@ -103,6 +103,11 @@ public class ItemHandler : MonoBehaviour
 
         switch (item.ItemId)
         {
+                /*case 1:
+                    //GivePlayerIngredient("Windbloom");
+                    Plugin.Logger.LogInfo($"Received Windbloom (index {index})");
+                    break;
+                    */
         }
     }
 }
