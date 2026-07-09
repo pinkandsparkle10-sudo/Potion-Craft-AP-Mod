@@ -91,7 +91,7 @@ public class Plugin(IngredientPlantData ingredientPlantData) : BaseUnityPlugin
 
         if (Keyboard.current.f6Key.wasPressedThisFrame)
         {
-            Managers.Ingredient.AddIngredients("MagmaMorel", 10);
+            Managers.Ingredient.AddIngredients("LustMushroom", 10);
         }
     }
     
