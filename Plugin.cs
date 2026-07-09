@@ -35,7 +35,7 @@ using PotionCraft.ScriptableObjects.Ingredient;
 namespace PotionCraftAPMod;
 
 [BepInPlugin("com.pinkandsparkle10.PotionCraftAPMod", "PotionCraftAPMod", "0.1.0")]
-public class Plugin(IngredientPlantData ingredientPlantData) : BaseUnityPlugin
+public class Plugin: BaseUnityPlugin
 {
 
     public static new ManualLogSource Logger;
@@ -83,16 +83,15 @@ public class Plugin(IngredientPlantData ingredientPlantData) : BaseUnityPlugin
 
     private void Update()
     {
-        //if (Keyboard.current.f6Key.wasPressedThisFrame)
-        //{
-            //PotionCraft.ManagersSystem.Player.PlayerManager.AddGoldCommand(10)
-        //}
-
-
         if (Keyboard.current.f6Key.wasPressedThisFrame)
         {
-            Managers.Ingredient.AddIngredients("LustMushroom", 10);
+            PotionCraft.ManagersSystem.Player.PlayerManager.AddGoldCommand(10);
         }
+
+        //if (Keyboard.current.f6Key.wasPressedThisFrame)
+        //{
+        //    Managers.Ingredient.AddIngredients("LustMushroom", 10);
+        //}
     }
     
 
