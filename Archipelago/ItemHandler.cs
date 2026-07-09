@@ -10,6 +10,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using PotionCraft.ManagersSystem;
+using PotionCraftAPMod.Archipelago.Mapping;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static PotionCraftAPMod.Archipelago.Mapping.TalentMapping;
@@ -100,9 +102,19 @@ public class ItemHandler : MonoBehaviour
         }
 
         ArchipelagoHandler.Instance.saveHandler.GetSaveData().NextExpectedIndex++;
+        if (item.ItemId <= 58)
+        {
+            Managers.Ingredient.AddIngredients(IngredientMapping.IngredientDict.First(KVP => KVP.Value == item.ItemId).Key , 10);
+            return;
+            // KVP = key value pair
+        }
 
         switch (item.ItemId)
         {
+                case 1001:
+                    PotionCraft.ManagersSystem.Player.PlayerManager.AddGoldCommand(100);
+                    break;
+                    
         }
     }
 }
